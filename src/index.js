@@ -30,7 +30,7 @@ const argv = require('yargs')
 	.usage('lesser-watch <command> [options]')
 	.command(
 		'lesser-watch',
-		'watch LESS files and selectively recompile when imported files changes'
+		'watch LESS files and selectively recompile when imported files change'
 	)
 	/* mandatory args */
 	.demand([ 'entries', 'dest' ])
@@ -43,7 +43,8 @@ const argv = require('yargs')
 	.alias('c', 'command')
 	.describe(
 		'command',
-		"The command to execute to recompile a file. The command will receive the file contents from stdin and its stdout will get piped to the output file\n" +
+		"The command to execute to recompile a file.\n" +
+		"The command will receive the file contents from stdin and its stdout will get piped to the output file\n" +
 		"Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS"
 	)
 	.default('command', 'node_modules/.bin/lessc -')
