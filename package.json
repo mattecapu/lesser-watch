@@ -1,0 +1,31 @@
+{
+  "name": "lesser-watch",
+  "version": "1.0.0",
+  "description": "watch less files and intelligently recompiles following the dependency graph",
+  "main": "lib/index.js",
+  "bin": "lib/index.js",
+  "repository": {
+    "url": "https://github.com/mattecapu/lesser-watch",
+    "type": "git"
+  },
+  "author": "Matteo Capucci <mattecapu@live.it>",
+  "license": "MIT",
+  "scripts": {
+    "build": "babel src --retain-lines -d lib"
+  },
+  "dependencies": {
+    "babel-cli": "^6.18.0",
+    "babel-plugin-add-module-exports": "^0.2.1",
+    "babel-plugin-ramda": "^1.1.6",
+    "babel-plugin-transform-object-rest-spread": "^6.16.0",
+    "babel-preset-es2015": "^6.18.0",
+    "chokidar": "^1.6.1",
+    "colors": "^1.1.2",
+    "debounce": "^1.0.0",
+    "less": "^2.7.1",
+    "yargs": "^6.3.0"
+  },
+  "peerDependencies": {
+    "less": "^2.7.1"
+  }
+}
