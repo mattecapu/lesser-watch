@@ -1,11 +1,18 @@
 # lesser-watch
 ### watch LESS files and selectively recompiles them whenever (directly or indirectly) @import-ed files change
 
+## Motivation
+This package provides a smarter way to watch LESS files.
+If you like your stylesheets to be DRY and modular
+Yet not *all* of the stylesheets will import a file.
+So you can watch your entire `styles/` directory and recompile all of your "root" files everytime something changes (which is unefficient if you have a large codebase and *literally hell* if you use something like `livereload`), or **you can do it better by selectively recompile only those "root" files which are affected by the change**. This is exactly what `lesser-watch` does.
+
 ## Installation
 ```
-$ npm install lesser-watch --save
+$ npm install lesser-watch --save-dev
 ```
 This is a CLI tool, so you might want it installed globally.
+Anyway, **`lesser-watch` expects LESS to be installed in the same directory it is installed**, be it local or global.
 
 ## Usage
 Get usage information by running `lesser-watch --help`:
@@ -35,6 +42,7 @@ Examples:
   Watch main.less dependencies and recompile with flags --source-map-map-inline and -x
 
 ```
+The underlying watching is done by the awesome [`chokidar`](https://npmjs.com/package/chokidar). The CLI logic is handled by the even more awesome [`yargs`](https://npmjs.com/package/yargs).
 
 ## License
 MIT
