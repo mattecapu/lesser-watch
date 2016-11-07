@@ -27,8 +27,8 @@ Options:
   -h, --help     Show help  [boolean]
   -c, --command  The command to execute to recompile a file.
                  The command will receive the file contents from stdin and its stdout will get piped to the output file
-                 Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS
-				 [default: "node_modules/.bin/lessc -"]
+                 Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS. If you need to provide the filename as an argument, the placeholder {path} will be replaced with that at runtime.
+				         [default: "node_modules/.bin/lessc -"]
   -e, --entries  Entry files. Any of them will recompile if one of its direct or indirect dependencies gets updated
                  [array] [required]
   -d, --dest     Destination folder. Compiled files are put here
@@ -40,6 +40,11 @@ Examples:
   lesser-watch -c 'lessc --source-map-map-inline -x' -e main.less -d static
 
   Watch main.less dependencies and recompile with flags --source-map-map-inline and -x
+
+
+  lesser-watch -c 'lessc --source-map-map-inline | postcss --map | exorcist {path}.map' -e main.less critical.less -d static
+
+	Watch main.less and critical.less. Recompile creating sourcemaps and then save them as main.less.map and critical.less.map
 
 ```
 The underlying watching is done by the awesome [`chokidar`](https://npmjs.com/package/chokidar). The CLI logic is handled by the even more awesome [`yargs`](https://npmjs.com/package/yargs).

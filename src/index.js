@@ -45,7 +45,7 @@ const argv = require('yargs')
 		'command',
 		"The command to execute to recompile a file.\n" +
 		"The command will receive the file contents from stdin and its stdout will get piped to the output file\n" +
-		"Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS"
+		"Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS. If you need to provide the filename as an argument, the placeholder {path} will be replaced with that at runtime."
 	)
 	.default('command', 'node_modules/.bin/lessc -')
 
@@ -70,8 +70,13 @@ const argv = require('yargs')
 	.default('polling', 0)
 
 	.example(
-		'lesser-watch -c \'lessc --source-map-map-inline -x\' -e main.less -d static',
-		"Watch main.less dependencies and recompile with flags --source-map-map-inline and -x"
+		`lesser-watch -c 'lessc -x -' -e main.less page.less -d static`,
+		"Watch main.less and page.less and their dependencies, recompile with the provided command (notice the '-' to make lessc read from stdin).\n" +
+		"Built files main.css and page.css will be created in the folder 'static'."
+	)
+	.example(
+		`lesser-watch -c 'lessc --source-map-map-inline | postcss --map | exorcist {path}.map' -e main.less critical.less -d static`,
+		"Watch main.less and critical.less. Recompile creating sourcemaps and then save them as main.less.map and critical.less.map"
 	)
 
 	.argv;
@@ -103,7 +108,7 @@ const compileFile = (file) => {
 
 	const compilationCommand = spawn(
 		SHELL_PATH,
-		[EXECUTE_OPTION, command]
+		[ EXECUTE_OPTION, command.replace(/{path}/g, `'${file}'`) ]
 	);
 
 	inputStream.pipe(compilationCommand.stdin);
