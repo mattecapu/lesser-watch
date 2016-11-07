@@ -1,5 +1,5 @@
 # lesser-watch
-### watch LESS files and intelligently recompiles following the dependency graph
+### watch LESS files and selectively recompiles them whenever (directly or indirectly) @import-ed files change
 
 ## Installation
 ```
@@ -13,7 +13,7 @@ Get usage information by running `lesser-watch --help`:
 lesser-watch <command> [options]
 
 Commands:
-  lesser-watch  watch LESS files and selectively recompile when imported files change
+  lesser-watch  watch LESS files and selectively recompiles them whenever (directly or indirectly) @import-ed files change
 
 Options:
   --version      Show version number  [boolean]

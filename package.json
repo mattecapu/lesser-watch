@@ -1,7 +1,7 @@
 {
   "name": "lesser-watch",
   "version": "1.0.0",
-  "description": "watch less files and intelligently recompiles following the dependency graph",
+  "description": "watch LESS files and selectively recompiles them whenever (directly or indirectly) @import-ed files change",
   "main": "lib/index.js",
   "bin": "lib/index.js",
   "repository": {

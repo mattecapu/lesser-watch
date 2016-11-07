@@ -30,7 +30,7 @@ const argv = require('yargs')
 	.usage('lesser-watch <command> [options]')
 	.command(
 		'lesser-watch',
-		'watch LESS files and selectively recompile when imported files change'
+		"watch LESS files and selectively recompiles them whenever (directly or indirectly) @import-ed files change"
 	)
 	/* mandatory args */
 	.demand([ 'entries', 'dest' ])
@@ -52,7 +52,7 @@ const argv = require('yargs')
 	.alias('e', 'entries')
 	.describe(
 		'entries',
-		'Entry files. Any of them will recompile if one of its direct or indirect dependencies gets updated'
+		"Entry files. Any of them will recompile if one of its direct or indirect dependencies gets updated"
 	)
 	.array('entries')
 
@@ -65,13 +65,13 @@ const argv = require('yargs')
 	.alias('p', 'polling')
 	.describe(
 		'polling',
-		'If set to 0, disable polling. Otherwise, watch with polling using the interval provided (in milliseconds)'
+		"If set to 0, disable polling. Otherwise, watch with polling using the interval provided (in milliseconds)"
 	)
 	.default('polling', 0)
 
 	.example(
 		'lesser-watch -c \'lessc --source-map-map-inline -x\' -e main.less -d static',
-		'Watch main.less dependencies and recompile with flags --source-map-map-inline and -x'
+		"Watch main.less dependencies and recompile with flags --source-map-map-inline and -x"
 	)
 
 	.argv;
