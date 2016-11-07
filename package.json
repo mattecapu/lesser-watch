@@ -2,6 +2,11 @@
   "name": "lesser-watch",
   "version": "1.1.1",
   "description": "watch LESS files and selectively recompiles them whenever (directly or indirectly) @import-ed files change",
+  "keywords": [
+    "watch",
+    "less",
+    "cli tool"
+  ],
   "main": "lib/index.js",
   "bin": "lib/index.js",
   "repository": {
