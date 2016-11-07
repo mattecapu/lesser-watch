@@ -3,8 +3,11 @@
 
 ## Motivation
 This package provides a smarter way to watch LESS files.
-If you like your stylesheets to be DRY and modular
+
+If you like your stylesheets to be DRY and modular, you'll ave a deep dependency graph of file imported by multiple other files.
+
 Yet not *all* of the stylesheets will import a file.
+
 So you can watch your entire `styles/` directory and recompile all of your "root" files everytime something changes (which is unefficient if you have a large codebase and *literally hell* if you use something like `livereload`), or **you can do it better by selectively recompile only those "root" files which are affected by the change**. This is exactly what `lesser-watch` does.
 
 ## Installation
@@ -12,6 +15,7 @@ So you can watch your entire `styles/` directory and recompile all of your "root
 $ npm install lesser-watch --save-dev
 ```
 This is a CLI tool, so you might want it installed globally.
+
 Anyway, **`lesser-watch` expects LESS to be installed in the same directory it is installed**, be it local or global.
 
 ## Usage
