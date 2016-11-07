@@ -48,7 +48,7 @@ Examples:
 
   lesser-watch -c 'lessc --source-map-map-inline | postcss --map | exorcist {path}.map' -e main.less critical.less -d static
 
-	Watch main.less and critical.less. Recompile creating sourcemaps and then save them as main.less.map and critical.less.map
+  Watch main.less and critical.less. Recompile creating sourcemaps and then save them as main.less.map and critical.less.map
 
 ```
 The underlying watching is done by the awesome [`chokidar`](https://npmjs.com/package/chokidar). The CLI logic is handled by the even more awesome [`yargs`](https://npmjs.com/package/yargs).
