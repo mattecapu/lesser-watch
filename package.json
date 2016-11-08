@@ -16,7 +16,8 @@
   "author": "Matteo Capucci <mattecapu@live.it>",
   "license": "MIT",
   "scripts": {
-    "build": "babel src --retain-lines -d lib",
+    "build": "babel src -d lib",
+    "build:dev": "npm run build -- --retain-lines",
     "preversion": "npm run build"
   },
   "dependencies": {
