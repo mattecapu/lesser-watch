@@ -31,7 +31,7 @@ Options:
   -h, --help     Show help  [boolean]
   -c, --command  The command to execute to recompile a file.
                  The command will receive the file contents from stdin and its stdout will get piped to the output file
-                 Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS. If you need to provide the filename as an argument, the placeholder {path} will be replaced with that at runtime.
+                 Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS. If you need to provide the source filename as an argument, the env variable SOURCE_FILE_PATH will be set to that when calling the provided command.
 				         [default: "node_modules/.bin/lessc -"]
   -e, --entries  Entry files. Any of them will recompile if one of its direct or indirect dependencies gets updated
                  [array] [required]
@@ -46,7 +46,7 @@ Examples:
   Watch main.less dependencies and recompile with flags --source-map-map-inline and -x
 
 
-  lesser-watch -c 'lessc --source-map-map-inline | postcss --map | exorcist {path}.map' -e main.less critical.less -d static
+  lesser-watch -c 'lessc --source-map-map-inline | postcss --map | exorcist static/`basename $SOURCE_FILE_PATH`.map' -e main.less critical.less -d static
 
   Watch main.less and critical.less. Recompile creating sourcemaps and then save them as main.less.map and critical.less.map
 

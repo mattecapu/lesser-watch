@@ -17,14 +17,6 @@ import { yellow } from 'colors/safe';
 const log = (arg) =>
     console.error(yellow("[lesser-watch]"), yellow(arg.toString()));
 
-/* gets the shell to use to execute command */
-const SHELL_PATH = process.env.SHELL || process.env.COMSPEC;
-const EXECUTE_OPTION = process.env.COMSPEC !== undefined && process.env.SHELL === undefined ? '/c' : '-c';
-
-if (!SHELL_PATH) {
-	throw new Error("Please set the SHELL environment variable to use to run commands (e.g. SHELL=sh)");
-}
-
 const argv = require('yargs')
 	/* command syntax description */
 	.usage('lesser-watch <command> [options]')
@@ -45,7 +37,7 @@ const argv = require('yargs')
 		'command',
 		"The command to execute to recompile a file.\n" +
 		"The command will receive the file contents from stdin and its stdout will get piped to the output file\n" +
-		"Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS. If you need to provide the filename as an argument, the placeholder {path} will be replaced with that at runtime."
+		"Useful if you have a non-trivial build pipeline (e.g. 'lessc - | postcss') or if you need to provide options to LESS. If you need to provide the source filename as an argument, the env variable SOURCE_FILE_PATH will be set to that when calling the provided command."
 	)
 	.default('command', 'node_modules/.bin/lessc -')
 
@@ -75,7 +67,7 @@ const argv = require('yargs')
 		"Built files main.css and page.css will be created in the folder 'static'."
 	)
 	.example(
-		`lesser-watch -c 'lessc --source-map-map-inline | postcss --map | exorcist {path}.map' -e main.less critical.less -d static`,
+		`lesser-watch -c 'lessc --source-map-map-inline | postcss --map | exorcist static/\`basename $SOURCE_FILE_PATH\`.map' -e main.less critical.less -d static`,
 		"Watch main.less and critical.less. Recompile creating sourcemaps and then save them as main.less.map and critical.less.map"
 	)
 
@@ -107,8 +99,12 @@ const compileFile = (file) => {
 		fs.createWriteStream(buildNames[file]);
 
 	const compilationCommand = spawn(
-		SHELL_PATH,
-		[ EXECUTE_OPTION, command.replace(/{path}/g, `'${file}'`) ]
+		command,
+		[],
+		{
+			env: { ...process.env, SOURCE_FILE_PATH: file },
+			shell: true
+		}
 	);
 
 	inputStream.pipe(compilationCommand.stdin);
