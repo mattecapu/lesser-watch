@@ -113,7 +113,7 @@ const compileFile = (file) => {
 			info(`Done with ${file}`)
 		)
 		.on('error', (error) =>
-			console.error(`An error occurred while recompiling ${file}`, error.stack)
+			error(`An error occurred while recompiling ${file}`, error.stack)
 		);
 };
 
@@ -145,7 +145,7 @@ const DepsWatcher =
 	chokidar.watch(depsFiles, watcherOptions);
 
 const errorCallback = (error) =>
-	console.error('An error occurred watching files:', error.message);
+	error('An error occurred watching files:', error.message);
 
 info(`Starting...`);
 if (command) {

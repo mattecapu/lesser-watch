@@ -3,6 +3,8 @@ import path from 'path';
 
 import R from 'ramda';
 
+import { error } from './loggers';
+
 /* find any statement like "@import (<modifier>) '<path>';" */
 const importsRegex = /@import\s(\(\w+\)\s)?'([\.\/a-z_\-]+)';/;
 
@@ -32,7 +34,7 @@ const getFileImportedPaths = (file) => {
 			);
 	} catch(error) {
 		/* resolution failed, probably not a file (i.e. URL) */
-		console.error(`Can't open '${getPath(file)}', skipping... (error: '${error.message}')`);
+		error(`Can't open '${getPath(file)}', skipping... (error: '${error.message}')`);
 		return [];
 	}
 };
