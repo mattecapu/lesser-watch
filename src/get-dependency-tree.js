@@ -32,7 +32,7 @@ const getFileImportedPaths = (file) => {
 			);
 	} catch(error) {
 		/* resolution failed, probably not a file (i.e. URL) */
-		console.error(`Can't open '${file}', skipping...`);
+		console.error(`Can't open '${getPath(file)}', skipping... (error: '${error.message}')`);
 		return [];
 	}
 };

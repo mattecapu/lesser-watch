@@ -10,12 +10,9 @@ import path from 'path';
 import { spawn } from 'child_process';
 
 import chokidar from 'chokidar';
-import getFlattenedDependencyTree from './get-dependency-tree.js';
+import getFlattenedDependencyTree from './get-dependency-tree';
 
-import { yellow } from 'colors/safe';
-
-const log = (arg) =>
-    console.error(yellow("[lesser-watch]"), yellow(arg.toString()));
+import { info, error } from './loggers';
 
 const argv = require('yargs')
 	/* command syntax description */
@@ -113,7 +110,7 @@ const compileFile = (file) => {
 
 	compilationCommand
 		.on('close', () =>
-			log(`Done with ${file}`)
+			info(`Done with ${file}`)
 		)
 		.on('error', (error) =>
 			console.error(`An error occurred while recompiling ${file}`, error.stack)
@@ -150,21 +147,21 @@ const DepsWatcher =
 const errorCallback = (error) =>
 	console.error('An error occurred watching files:', error.message);
 
-log(`Starting...`);
+info(`Starting...`);
 if (command) {
-	log(`Using the following compiling pipeline: ${command}`);
+	info(`Using the following compiling pipeline: ${command}`);
 }
 if (polling) {
-	log(`Using polling with interval ${polling || 100}ms`);
+	info(`Using polling with interval ${polling || 100}ms`);
 }
 
 EntriesWatcher
 	.on('ready', () =>
-		log(`Watching ${entryFiles.length} entry files...`)
+		info(`Watching ${entryFiles.length} entry files...`)
 	)
 	.on('change', (file) => {
-		log(`Change detected in entry file: ${file}.`);
-		log(`Recompiling ${file}...`);
+		info(`Change detected in entry file: ${file}.`);
+		info(`Recompiling ${file}...`);
 
 		/* update dependencies */
 		const newDeps = getFlattenedDependencyTree(file);
@@ -177,11 +174,11 @@ EntriesWatcher
 		depsFiles = getAllDepsFiles();
 
 		if (addedDeps.length) {
-			log(`Watching new deps: ${addedDeps.join(' ')}...`);
+			info(`Watching new deps: ${addedDeps.join(' ')}...`);
 			DepsWatcher.add(addedDeps);
 		}
 		if (removedDeps.length) {
-			log(`Unwatching dropped deps: ${removedDeps.join(' ')}...`);
+			info(`Unwatching dropped deps: ${removedDeps.join(' ')}...`);
 			DepsWatcher.unwatch(removedDeps);
 		}
 
@@ -199,13 +196,13 @@ EntriesWatcher
 
 DepsWatcher
 	.on('ready', () =>
-		log(`Watching ${depsFiles.length} deps...`)
+		info(`Watching ${depsFiles.length} deps...`)
 	)
 	.on('change', (file) => {
-		log(`Change detected in dep: ${file}.`);
+		info(`Change detected in dep: ${file}.`);
 		entryFiles
 			.filter(entry => ~flattenedDepTrees[entry].indexOf(file))
-			.map(R.tap((file) => log(`Recompiling ${file}...`)))
+			.map(R.tap((file) => info(`Recompiling ${file}...`)))
 			.forEach(debouncedCompileFile)
 	})
 	.on('error', errorCallback);
